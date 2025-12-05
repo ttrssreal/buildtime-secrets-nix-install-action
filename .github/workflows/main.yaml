@@ -1,0 +1,30 @@
+name: main
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install nix
+        uses: DeterminateSystems/nix-installer-action@v20
+
+      - name: Setup gha cache
+        uses: DeterminateSystems/magic-nix-cache-action@v13
+        with:
+          use-flakehub: false
+
+      - name: Run install action
+        uses: ./.
+        with:
+          ci-key-file: test/fixtures/key
+          sops-file: test/fixtures/test.sops.yaml
+
+      - name: Test
+        run: test/main.py

@@ -1,0 +1,35 @@
+name: buildtime-secrets-nix-install-action
+description: Install buildtime-secrets-nix
+inputs:
+  ci-key-file:
+    description: |
+      The secret key file used by the CI to decrypt secrets when building derivations.
+    required: true
+
+  sops-file:
+    description: |
+      The sops file containing encrypted secrets needed at buildtime. The path should be
+      relative to the current directory.
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Clone intaller
+      shell: bash
+      run: |
+        git clone \
+          https://github.com/ttrssreal/buildtime-secrets-nix-install-action
+
+    - name: Install buildtime-secrets-nix
+      shell: bash
+      run: |
+        >/dev/null pushd buildtime-secrets-nix-install-action
+
+        sudo \
+          --preserve-env=PATH \
+          CI_KEY_FILE='${{ inputs.ci-key-file }}' \
+          SOPS_FILE='${{ inputs.sops-file }}' \
+          ./install.sh
+
+        >/dev/null popd

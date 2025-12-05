@@ -1,0 +1,11 @@
+{
+  "backend_config": {
+    "sops": {
+      "environment": {
+        "SOPS_AGE_SSH_PRIVATE_KEY_FILE": "@KEY@"
+      },
+      "sops_file": "@SOPS_FILE@"
+    }
+  },
+  "secret_dir": "/run/bt-secrets"
+}

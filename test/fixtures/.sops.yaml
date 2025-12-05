@@ -1,0 +1,5 @@
+creation_rules:
+  - key_groups:
+      - age:
+          - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMRlDMKa7seJWmY3x/KTzR85e5RnU/lGaec2wa0sDPmU test
+    path_regex: test.sops.yaml
