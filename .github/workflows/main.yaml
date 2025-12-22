@@ -6,6 +6,21 @@ on:
 
 jobs:
   build:
+    strategy:
+      matrix:
+        ci-key-file:
+          # absolute
+          - ${{ github.workspace }}/test/fixtures/key
+
+          # relative
+          - test/fixtures/key
+        sops-file:
+          # absolute
+          - ${{ github.workspace }}/test/fixtures/test.sops.yaml
+
+          # relative
+          - test/fixtures/test.sops.yaml
+
     runs-on: ubuntu-latest
 
     steps:
@@ -23,8 +38,8 @@ jobs:
       - name: Run install action
         uses: ./.
         with:
-          ci-key-file: test/fixtures/key
-          sops-file: test/fixtures/test.sops.yaml
+          ci-key-file: ${{ matrix.ci-key-file }}
+          sops-file: ${{ matrix.sops-file }}
 
       - name: Test
         run: test/main.py
